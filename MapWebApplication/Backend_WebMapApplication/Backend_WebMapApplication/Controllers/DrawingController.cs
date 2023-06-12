@@ -7,8 +7,10 @@ using System.IO;
 
 namespace Backend_WebMapApplication.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
+    [Route("api/[controller]")]
+    
     public class DrawingController : ControllerBase
     {
         private readonly string _filePath = Path.Combine("Models", "mapData.json");
