@@ -35,12 +35,12 @@ function enableDrawingInteraction() {
         //console.log(coordinates); //put it the control understand that 415 status code problem is about coordinates variable
 
         //Open the modal-popup window to capture name and number
-        openModalPopup(coordinates);
+        openModalPopup();
     });
 }
 
 //Open the modal-popup window
-function openModalPopup(coordinates) {
+function openModalPopup() {
     const modal = jsPanel.create({
         theme: 'dark',
         headerTitle: 'Add Drawing',
@@ -86,10 +86,10 @@ function saveDrawing(name, number, coordinates) {
     };
 
     //Make an API request to the backend to save the drawing
-    fetch('https://localhost:44303/api/Drawing' , {
+    fetch('https://localhost:5001/api/drawing' , {
         method: 'POST',
-        header: {
-            //'Content-Type': 'application/json'
+        headers: {
+            "content-type": "application/json"
         },
         body: JSON.stringify(data)
     })
@@ -108,12 +108,12 @@ function saveDrawing(name, number, coordinates) {
 //Query the drawings
 function queryDrawings() {
     //Make an API request to the backend to retrieve the drawings
-    fetch('https://localhost:44303/api/Drawing')
+    fetch('https://localhost:5001/api/drawing')
         .then(response => response.json())
         .then(data => {
             //Handle the retrieved drawings 
-            drawing = data;
-
+            drawings = [data];
+            console.log(drawings);
             //Display the retrieved drawings in a datatable
             displayDrawingsTable();
 
@@ -133,7 +133,7 @@ function queryDrawings() {
 //Display the retrieved drawings in a datatable
 function displayDrawingsTable() {
     const tableData = drawings.map(drawing => {
-        return [drawing.name, drawing.number];
+        return [drawing.Name, drawing.Number];
     });
 
     $('#drawingTable').DataTable({
@@ -150,7 +150,7 @@ function displayDrawingsOnMap() {
     const vectorSource = new ol.source.Vector();
 
     drawings.forEach(drawing => {
-        const coordinates = drawing.coordinates;
+        const coordinates = drawing.Coordinates;
         const feature = new ol.Feature({
             geometry: new ol.geom.LineString(coordinates)
         });
