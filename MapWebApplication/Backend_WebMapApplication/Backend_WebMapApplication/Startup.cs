@@ -35,13 +35,7 @@ namespace Backend_WebMapApplication
                                .AllowAnyHeader());
             });
 
-            services.AddControllers(options =>
-            {
-                var jsonInputFormatter = options.InputFormatters
-                    .OfType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>()
-                    .Single();
-                jsonInputFormatter.SupportedMediaTypes.Add("application/json");
-            })
+            services.AddControllers()
                     .AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
